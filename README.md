@@ -19,10 +19,10 @@ Capture competitor state, isolate meaningful change, preserve the history, and t
 </div>
 
 <p align="center">
-  <img src="assets/ui-screenshot.png" alt="RivalTrace client portal showing competitive-intelligence state" width="92%" />
+  <img src="docs/readme-assets/signal-workspace.svg" alt="RivalTrace signal workspace showing a structural delta, validated strategic insight, briefing history, and delivery adapters" width="100%" />
 </p>
 
-<p align="center"><sub>Client portal — competitor monitoring state and generated briefing history are presented from persisted application data.</sub></p>
+<p align="center"><sub>Implementation-backed product view — actual pipeline stages and schema boundaries with clearly illustrative content.</sub></p>
 
 ---
 
@@ -431,9 +431,7 @@ flowchart TB
 
 `BriefingHistory` stores the client, competitor, scrape timestamp, structured insight JSON, and a delivery-status enum. Current orchestration creates the history record before attempting channel delivery, so the README treats this record as generated-intelligence history—not as proof of provider-confirmed delivery.
 
-### Channel behavior
-
-- **Email:** Jinja renders `weekly_briefing.html`; R…324 tokens truncated…     |
+##…342 tokens truncated…     |
 | Briefing detail | Separates “What Changed,” “What It Means,” and “What To Do” into inspectable sections                           |
 | Settings        | Presents Slack delivery and subscription configuration controls                                                 |
 
