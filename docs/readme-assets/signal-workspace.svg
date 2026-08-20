@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">RivalTrace implementation-backed signal workspace</title>
+  <desc id="desc">A technical product visual showing an observed snapshot delta, bounded AI interpretation, persisted briefing history, and delivery adapters using RivalTrace's implemented workflow and schema.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#101827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.58" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#ef4444"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#020617" flood-opacity=".45"/>
+    </filter>
+    <style>
+      .kicker{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1.6px;fill:#64748b}
+      .label{font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;fill:#94a3b8}
+      .title{font:700 21px Inter,Arial,sans-serif;fill:#f8fafc}
+      .body{font:500 13px Inter,Arial,sans-serif;fill:#cbd5e1}
+      .small{font:500 11px Inter,Arial,sans-serif;fill:#94a3b8}
+      .mono{font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#cbd5e1}
+      .panel{fill:#0b1625;stroke:#24344a;stroke-width:1}
+      .card{fill:#0f1d2d;stroke:#2b3e56;stroke-width:1}
+      .rule{stroke:#223248;stroke-width:1}
+    </style>
+  </defs>
+
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <path d="M0 82H1200" class="rule"/>
+  <path d="M0 638H1200" class="rule"/>
+
+  <g transform="translate(42 28)">
+    <circle cx="21" cy="21" r="19" fill="none" stroke="#334155"/>
+    <circle cx="21" cy="21" r="11" fill="none" stroke="#22d3ee" stroke-opacity=".75"/>
+    <path d="M21 21L36 9M21 21H40" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="21" cy="21" r="3" fill="#f8fafc"/>
+    <text x="55" y="18" class="title">RivalTrace Signal Workspace</text>
+    <text x="55" y="37" class="small">Implementation-backed workflow specimen</text>
+  </g>
+
+  <g transform="translate(878 27)">
+    <rect width="128" height="28" rx="14" fill="#082f49" stroke="#155e75"/>
+    <circle cx="15" cy="14" r="4" fill="#22d3ee"/>
+    <text x="27" y="18" class="kicker" fill="#a5f3fc">DETERMINISTIC</text>
+    <rect x="138" width="140" height="28" rx="14" fill="#422006" stroke="#92400e"/>
+    <circle cx="153" cy="14" r="4" fill="#f59e0b"/>
+    <text x="165" y="18" class="kicker" fill="#fde68a">MODEL OUTPUT</text>
+  </g>
+
+  <g transform="translate(28 104)" filter="url(#shadow)">
+    <rect width="246" height="510" rx="16" class="panel"/>
+    <text x="22" y="32" class="kicker">MONITORED ENTITY</text>
+    <text x="22" y="61" class="title">Competitor A</text>
+    <text x="22" y="83" class="small">Configured Apify capture boundary</text>
+
+    <path d="M22 106H224" class="rule"/>
+    <text x="22" y="135" class="label">COMPARISON</text>
+    <g transform="translate(22 151)">
+      <rect width="92" height="72" rx="9" class="card"/>
+      <text x="13" y="23" class="kicker">PREVIOUS</text>
+      <text x="13" y="45" class="mono">snapshot[n-1]</text>
+      <text x="13" y="61" class="small">stored JSON</text>
+      <rect x="110" width="92" height="72" rx="9" fill="#0c2130" stroke="#155e75"/>
+      <text x="123" y="23" class="kicker">CURRENT</text>
+      <text x="123" y="45" class="mono">snapshot[n]</text>
+      <text x="123" y="61" class="small">stored JSON</text>
+      <path d="M95 36H107" stroke="#f59e0b" stroke-width="2"/>
+    </g>
+
+    <text x="22" y="260" class="label">PIPELINE STATUS</text>
+    <g transform="translate(22 276)">
+      <path d="M7 7V157" stroke="#334155" stroke-width="2"/>
+      <circle cx="7" cy="7" r="5" fill="#22d3ee"/>
+      <circle cx="7" cy="45" r="5" fill="#22d3ee"/>
+      <circle cx="7" cy="83" r="5" fill="#22d3ee"/>
+      <circle cx="7" cy="121" r="5" fill="#f59e0b"/>
+      <circle cx="7" cy="159" r="5" fill="#34d399"/>
+      <text x="22" y="11" class="body">Snapshots selected</text>
+      <text x="22" y="49" class="body">DeepDiff computed</text>
+      <text x="22" y="87" class="body">Delta sanitized</text>
+      <text x="22" y="125" class="body">Insight validated</text>
+      <text x="22" y="163" class="body">History persisted</text>
+    </g>
+
+    <rect x="22" y="465" width="202" height="26" rx="7" fill="#071b27" stroke="#164e63"/>
+    <text x="36" y="482" class="kicker" fill="#67e8f9">LATEST TWO SNAPSHOTS</text>
+  </g>
+
+  <g transform="translate(294 104)" filter="url(#shadow)">
+    <rect width="420" height="252" rx="16" class="panel"/>
+    <text x="22" y="32" class="kicker">OBSERVED CHANGE</text>
+    <text x="22" y="61" class="title">Structural delta</text>
+    <rect x="22" y="82" width="376" height="53" rx="9" fill="#0d1b2a" stroke="#334155"/>
+    <text x="37" y="103" class="kicker">PATH</text>
+    <text x="37" y="123" class="mono">root['items'][0]['headline']</text>
+
+    <g transform="translate(22 151)">
+      <rect width="177" height="72" rx="9" fill="#17131b" stroke="#7f1d1d"/>
+      <text x="14" y="22" class="kicker" fill="#fca5a5">BEFORE</text>
+      <text x="14" y="46" class="body">Legacy workspace</text>
+      <text x="14" y="62" class="small">snapshot[n-1]</text>
+      <rect x="199" width="177" height="72" rx="9" fill="#0b1f20" stroke="#166534"/>
+      <text x="213" y="22" class="kicker" fill="#86efac">AFTER</text>
+      <text x="213" y="46" class="body">Unified workspace</text>
+      <text x="213" y="62" class="small">snapshot[n]</text>
+      <path d="M181 36H195" stroke="#f59e0b" stroke-width="2"/>
+    </g>
+  </g>
+
+  <g transform="translate(294 376)" filter="url(#shadow)">
+    <rect width="420" height="238" rx="16" class="panel"/>
+    <text x="22" y="32" class="kicker">DELTA CONTRACT</text>
+    <text x="22" y="61" class="title">Deterministic evidence</text>
+    <g transform="translate(22 82)">
+      <rect width="116" height="52" rx="9" fill="#09232d" stroke="#155e75"/>
+      <text x="14" y="21" class="kicker">ADDED</text>
+      <text x="14" y="40" class="mono">0 paths</text>
+      <rect x="130" width="116" height="52" rx="9" fill="#24150d" stroke="#92400e"/>
+      <text x="144" y="21" class="kicker">MODIFIED</text>
+      <text x="144" y="40" class="mono">1 path</text>
+      <rect x="260" width="116" height="52" rx="9" fill="#231119" stroke="#7f1d1d"/>
+      <text x="274" y="21" class="kicker">REMOVED</text>
+      <text x="274" y="40" class="mono">0 paths</text>
+    </g>
+    <rect x="22" y="151" width="376" height="62" rx="9" fill="#0d1b2a" stroke="#334155"/>
+    <text x="37" y="174" class="kicker">NORMALIZED AS</text>
+    <text x="37" y="197" class="mono">modified_items / values_changed</text>
+  </g>
+
+  <g transform="translate(734 104)" filter="url(#shadow)">
+    <rect width="438" height="510" rx="16" class="panel"/>
+    <text x="22" y="32" class="kicker">STRUCTURED INTELLIGENCE</text>
+    <text x="22" y="61" class="title">Validated briefing packet</text>
+
+    <g transform="translate(22 82)">
+      <rect width="394" height="88" rx="10" fill="#0b202a" stroke="#155e75"/>
+      <text x="15" y="23" class="kicker" fill="#67e8f9">WHAT CHANGED</text>
+      <text x="15" y="48" class="body">The captured headline changed between</text>
+      <text x="15" y="68" class="body">the latest two stored snapshots.</text>
+
+      <rect y="100" width="394" height="88" rx="10" fill="#211a0e" stroke="#92400e"/>
+      <text x="15" y="123" class="kicker" fill="#fcd34d">WHAT IT MEANS</text>
+      <text x="15" y="148" class="body">The competitor may be consolidating its</text>
+      <text x="15" y="168" class="body">product positioning around one workspace.</text>
+
+      <rect y="200" width="394" height="88" rx="10" fill="#241217" stroke="#7f1d1d"/>
+      <text x="15" y="223" class="kicker" fill="#fca5a5">WHAT TO DO</text>
+      <text x="15" y="248" class="body">Review adjacent product copy and watch</text>
+      <text x="15" y="268" class="body">whether the framing persists.</text>
+    </g>
+
+    <g transform="translate(22 390)">
+      <text x="0" y="0" class="kicker">THREAT LEVEL</text>
+      <rect y="14" width="88" height="29" rx="14" fill="#422006" stroke="#92400e"/>
+      <circle cx="16" cy="28.5" r="4" fill="#f59e0b"/>
+      <text x="28" y="32" class="label" fill="#fde68a">MEDIUM</text>
+      <text x="108" y="33" class="small">Model classification, not measured fact</text>
+    </g>
+
+    <path d="M22 455H416" class="rule"/>
+    <text x="22" y="480" class="kicker">PERSIST</text>
+    <text x="89" y="480" class="mono">BriefingHistory.insight_json</text>
+    <text x="22" y="502" class="small">Portal history / Resend attempt / Slack attempt</text>
+  </g>
+
+  <rect x="42" y="651" width="1116" height="3" rx="1.5" fill="url(#accent)"/>
+  <text x="42" y="672" class="small">Illustrative content. Stages, field groups, and responsibility boundaries reflect the implemented RivalTrace pipeline.</text>
+</svg>
+
