@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="440" viewBox="0 0 1100 440" role="img" aria-labelledby="title desc">
+  <title id="title">Evidence to inference boundary</title>
+  <desc id="desc">Deterministic evidence is sanitized before Claude produces structured interpretation and recommendations.</desc>
+  <defs><style>.h{font:700 20px Inter,Arial,sans-serif;fill:#f8fafc}.l{font:600 12px ui-monospace,monospace;letter-spacing:1.5px;fill:#94a3b8}.s{font:500 14px Inter,Arial,sans-serif;fill:#cbd5e1}.m{font:600 12px ui-monospace,monospace;fill:#e2e8f0}.c{fill:#0d1726;stroke:#334155}</style></defs>
+  <rect width="1100" height="440" rx="22" fill="#08111f"/>
+  <text x="50" y="50" class="l">THREE LEVELS OF TRUTH</text>
+  <g transform="translate(50 82)"><rect width="300" height="280" rx="15" class="c"/><circle cx="30" cy="31" r="9" fill="#22d3ee"/><text x="52" y="36" class="l">01 · OBSERVED</text><text x="24" y="82" class="h">What data changed?</text><path d="M24 111H276M24 147H276M24 183H276" stroke="#26364b"/><text x="24" y="132" class="m">snapshot t−1</text><text x="24" y="168" class="m">snapshot t</text><text x="24" y="204" class="m">DeepDiff delta</text><rect x="24" y="228" width="252" height="31" rx="7" fill="#0d2330"/><text x="38" y="248" class="l">DETERMINISTIC EVIDENCE</text></g>
+  <path d="M364 222H401" stroke="#64748b" stroke-dasharray="5 5"/><path d="M393 216L401 222L393 228" fill="none" stroke="#64748b"/>
+  <g transform="translate(415 82)"><rect width="270" height="280" rx="15" class="c"/><circle cx="30" cy="31" r="9" fill="#f59e0b"/><text x="52" y="36" class="l">02 · INTERPRETED</text><text x="24" y="82" class="h">What might it mean?</text><rect x="24" y="111" width="222" height="106" rx="9" fill="#111f31"/><text x="39" y="138" class="m">HTML stripped</text><text x="39" y="163" class="m">empty values removed</text><text x="39" y="188" class="m">paths flattened</text><text x="24" y="248" class="s">Claude interprets bounded,</text><text x="24" y="269" class="s">sanitized change context.</text></g>
+  <path d="M699 222H736" stroke="#64748b" stroke-dasharray="5 5"/><path d="M728 216L736 222L728 228" fill="none" stroke="#64748b"/>
+  <g transform="translate(750 82)"><rect width="300" height="280" rx="15" class="c"/><circle cx="30" cy="31" r="9" fill="#ef4444"/><text x="52" y="36" class="l">03 · RECOMMENDED</text><text x="24" y="82" class="h">What deserves attention?</text><path d="M24 111H276M24 147H276M24 183H276" stroke="#26364b"/><text x="24" y="132" class="m">executive_summary</text><text x="24" y="168" class="m">what_it_means[]</text><text x="24" y="204" class="m">what_to_do[]</text><rect x="24" y="228" width="252" height="31" rx="7" fill="#271719"/><text x="37" y="248" class="l">MODEL-GENERATED JUDGMENT</text></g>
+  <text x="50" y="405" class="s">Observed deltas and model interpretations are intentionally different epistemic categories.</text>
+</svg>
+
