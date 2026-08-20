@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" viewBox="0 0 1100 360" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative competitor timeline</title><desc id="desc">A competitor accumulates snapshots and selected briefings over time, while no-change observations do not generate insight.</desc>
+  <defs><style>.h{font:700 18px Inter,Arial,sans-serif;fill:#f8fafc}.l{font:600 12px ui-monospace,monospace;letter-spacing:1.4px;fill:#94a3b8}.s{font:500 13px Inter,Arial,sans-serif;fill:#cbd5e1}.m{font:600 12px ui-monospace,monospace;fill:#e2e8f0}</style></defs>
+  <rect width="1100" height="360" rx="22" fill="#08111f"/>
+  <text x="50" y="47" class="l">ILLUSTRATIVE MARKET MEMORY</text><text x="50" y="78" class="h">One competitor · four observations · two strategic signals</text>
+  <path d="M105 176H995" stroke="#334155" stroke-width="3"/>
+  <g transform="translate(145 176)"><circle r="10" fill="#22d3ee"/><path d="M0 11V47" stroke="#334155"/><rect x="-70" y="52" width="140" height="72" rx="9" fill="#0d1726" stroke="#334155"/><text x="-49" y="79" class="l">SNAPSHOT 01</text><text x="-40" y="103" class="s">Baseline</text><text x="-13" y="-26" class="m">t0</text></g>
+  <g transform="translate(415 176)"><circle r="10" fill="#f59e0b"/><path d="M0 -11V-47" stroke="#334155"/><rect x="-82" y="-126" width="164" height="72" rx="9" fill="#0d1726" stroke="#f59e0b"/><text x="-57" y="-99" class="l">SNAPSHOT 02</text><text x="-54" y="-75" class="s">Delta → briefing</text><text x="-13" y="36" class="m">t1</text></g>
+  <g transform="translate(685 176)"><circle r="10" fill="#64748b"/><path d="M0 11V47" stroke="#334155"/><rect x="-70" y="52" width="140" height="72" rx="9" fill="#0d1726" stroke="#334155"/><text x="-49" y="79" class="l">SNAPSHOT 03</text><text x="-42" y="103" class="s">No change</text><text x="-13" y="-26" class="m">t2</text></g>
+  <g transform="translate(955 176)"><circle r="10" fill="#ef4444"/><path d="M0 -11V-47" stroke="#334155"/><rect x="-82" y="-126" width="164" height="72" rx="9" fill="#0d1726" stroke="#ef4444"/><text x="-57" y="-99" class="l">SNAPSHOT 04</text><text x="-54" y="-75" class="s">Delta → briefing</text><text x="-13" y="36" class="m">t3</text></g>
+</svg>
+
