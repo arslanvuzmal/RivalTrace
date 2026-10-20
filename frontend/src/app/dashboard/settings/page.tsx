@@ -18,8 +18,7 @@ export default function SettingsPage() {
     e.preventDefault();
     setIsSaving(true);
     try {
-      // Assuming a hypothetical backend endpoint to update client settings
-      await apiClient.put(`/api/v1/clients/${session?.user?.id}/slack`, { slack_webhook_url: slackUrl });
+      await apiClient.put(`/api/v1/dashboard/slack`, { slack_webhook_url: slackUrl });
       alert("Slack Webhook URL saved successfully!");
     } catch (err) {
       console.error(err);

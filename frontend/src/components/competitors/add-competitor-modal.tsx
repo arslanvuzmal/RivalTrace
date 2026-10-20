@@ -20,7 +20,6 @@ export default function AddCompetitorModal({ open, onOpenChange }: { open: boole
       const res = await apiClient.post(`/api/v1/dashboard/competitors`, {
         name,
         website_url: websiteUrl,
-        client_id: Number(session?.user?.id),
       });
       return res.data;
     },

@@ -3,6 +3,7 @@ import structlog
 import anthropic
 from app.core.config import settings
 from app.schemas.insights import CompetitorInsight
+from app.services.demo_insights import demo_insight
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 logger = structlog.get_logger(__name__)
@@ -42,19 +43,27 @@ def _call_claude(competitor_name: str, sanitized_delta: str) -> CompetitorInsigh
     client = get_claude_client()
     
     logger.info("Calling Claude for insights", competitor_name=competitor_name)
+    # claude-3-haiku-20240307 is retired. Current models think by default and the thinking counts
+    # towards max_tokens, so 1024 could cut the JSON off.
     response = client.messages.create(
-        model="claude-3-haiku-20240307",
-        max_tokens=1024,
+        model="claude-haiku-5-5",
+        max_tokens=16000,
         system=SYSTEM_PROMPT,
         messages=[
             {
-                "role": "user", 
+                "role": "user",
                 "content": f"Competitor Name: {competitor_name}\n\nWeekly Delta:\n{sanitized_delta}"
             }
         ]
     )
-    
-    raw_response = response.content[0].text.strip()
+
+    if response.stop_reason == "refusal":
+        raise ValueError("Claude declined to analyse this delta.")
+    # A thinking block can come before the answer; read the first text block, not content[0].
+    text_block = next((b for b in response.content if b.type == "text"), None)
+    if text_block is None:
+        raise ValueError("Claude returned no text.")
+    raw_response = text_block.text.strip()
     # Attempt to clean up markdown if present despite prompt instructions
     if raw_response.startswith("```json"):
         raw_response = raw_response[7:-3].strip()
@@ -68,6 +77,8 @@ def generate_strategic_insights(competitor_name: str, sanitized_delta: str) -> C
     Sends the sanitized delta data to Claude and returns a structured CompetitorInsight object.
     Implements retries, and if it completely fails, returns a graceful fallback object.
     """
+    if settings.demo_mode:
+        return demo_insight(competitor_name, sanitized_delta)
     try:
         return _call_claude(competitor_name, sanitized_delta)
     except Exception as e:

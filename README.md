@@ -47,6 +47,7 @@ Capture competitor state, isolate meaningful change, preserve the history, and t
 - [Technical specifications](#technical-specifications)
 - [Testing](#what-the-test-suite-protects)
 - [Deployment](#deployment-model)
+- [Run the demo (no keys)](#run-the-demo-no-keys)
 - [Quickstart](#local-quickstart)
 - [Design principles](#design-principles)
 
@@ -331,7 +332,7 @@ This is a content-reduction boundary, not a claim of prompt-injection immunity. 
 
 ## AI interpretation
 
-The analysis adapter calls `claude-3-haiku-20240307` with the sanitized delta and requires JSON matching `CompetitorInsight`.
+The analysis adapter calls `claude-haiku-5-5` with the sanitized delta and requires JSON matching `CompetitorInsight`.
 
 ```json
 {
@@ -527,13 +528,17 @@ flowchart TB
 | Surface                    | Control                                                                               |
 | -------------------------- | ------------------------------------------------------------------------------------- |
 | External briefing triggers | Required `X-Webhook-Secret`, compared with `hmac.compare_digest`                      |
-| Portal credentials         | Bcrypt password verification through Passlib                                          |
+| Portal credentials         | Bcrypt password verification (`bcrypt`)                                               |
 | Portal session handoff     | Expiring HS256 JWT returned by FastAPI and stored in NextAuth’s JWT session           |
+| Portal API (`/dashboard`)  | Bearer JWT verified on every call; the client comes from the token                    |
 | Request contracts          | Pydantic models for clients, competitors, Apify input, deltas, and insight output     |
 | Scraped content            | Structural diff followed by HTML stripping, empty pruning, flattening, and truncation |
 | Model output               | JSON parsing followed by `CompetitorInsight` validation                               |
 | Stripe events              | Provider signature verification before subscription-state mutation                    |
 | Secrets                    | Read from environment-backed settings rather than embedded API keys                   |
+
+Not yet protected: the admin routes (`/clients`, `/competitors`, `/ingest`, `/insights`, `/orchestrate`,
+`/billing/checkout`) have no authentication and must not be exposed publicly as they are.
 
 The codebase does not claim that the sanitizer is a complete prompt-injection defense. It establishes a narrower input boundary and leaves strategic interpretation explicitly model-generated.
 
@@ -642,7 +647,7 @@ The repository also implements a per-client trigger at `POST /api/v1/webhooks/n8
 | Specification           | Current implementation                                                             |
 | ----------------------- | ---------------------------------------------------------------------------------- |
 | Analysis provider       | Anthropic SDK                                                                      |
-| Model identifier        | `claude-3-haiku-20240307`                                                          |
+| Model identifier        | `claude-haiku-5-5`                                                                 |
 | Input                   | Sanitized, flattened structural delta                                              |
 | Default input bound     | 15,000 characters                                                                  |
 | Output validation       | Pydantic `CompetitorInsight`                                                       |
@@ -695,7 +700,7 @@ The repository also implements a per-client trigger at `POST /api/v1/webhooks/n8
 
 ## What the test suite protects
 
-The repository contains six focused pytest cases around the deterministic core:
+The repository contains thirteen pytest cases. Six cover the deterministic core:
 
 - HTML is stripped from analysis input.
 - Empty strings, collections, and `None` values are removed.
@@ -703,6 +708,11 @@ The repository contains six focused pytest cases around the deterministic core:
 - Nested dictionaries and lists produce stable flattened paths.
 - A first capture becomes an `added_items` baseline.
 - A later capture identifies added and removed structural content.
+
+Seven cover the portal and delivery (`tests/test_fixes.py`): the portal API refuses calls without a
+valid token and ignores a client ID sent in a header; a client sees only its own competitors; login
+works with current `bcrypt`; a failed email marks the stored briefings `FAILED`; the model's answer is
+read from its text block when a thinking block comes first; demo mode pairs old and new values.
 
 CI also runs a targeted Ruff check and builds the Next.js frontend with Node.js 20.
 
@@ -716,6 +726,30 @@ cd frontend && npm run build
 ## Deployment model
 
 Docker Compose provisions the FastAPI backend and PostgreSQL 15. The frontend runs from `frontend/` as a separate Next.js process and reaches FastAPI through `NEXT_PUBLIC_API_URL`. Apify, Anthropic, Resend, Slack, and Stripe remain external provider boundaries configured through environment values.
+
+---
+
+## Run the demo (no keys)
+
+Demo mode runs the whole pipeline on sample data with no API keys: the model call is replaced by
+keyword rules (`app/services/demo_insights.py`, and every summary says so) and the briefing email is
+written to `demo/out/` instead of being sent. The client, competitors and snapshots in `demo/seed.py`
+are invented.
+
+```bash
+pip install -r requirements.txt
+export DEMO_MODE=true WEBHOOK_SECRET=demo-secret JWT_SECRET_KEY=demo-local-secret \
+       DATABASE_URL=sqlite+pysqlite:///./demo/demo.db
+python -m demo.seed                      # 1 client, 3 competitors, 2 snapshots each
+uvicorn app.main:app --port 8000 &
+curl -X POST -H "X-Webhook-Secret: demo-secret" \
+     http://localhost:8000/api/v1/webhooks/n8n/trigger-all     # the weekly run
+# portal: cd frontend && npm install, set NEXTAUTH_URL=http://localhost:3000 and a NEXTAUTH_SECRET
+# in frontend/.env.local, then npm run dev; sign in as demo@rivaltrace.local / DemoMode2026
+```
+
+Two of the three sample competitors changed during the week, so two briefings are stored, the email
+is written to `demo/out/`, and the third competitor is skipped as unchanged.
 
 ---
 

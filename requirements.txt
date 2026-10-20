@@ -14,5 +14,6 @@ tenacity
 structlog
 stripe
 slack_sdk
-passlib[bcrypt]
+bcrypt
 python-jose
+python-multipart
