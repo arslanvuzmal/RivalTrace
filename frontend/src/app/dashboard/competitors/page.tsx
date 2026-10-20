@@ -17,7 +17,7 @@ export default function CompetitorsPage() {
   const { data: competitors, isLoading } = useQuery<Competitor[]>({
     queryKey: ["competitors"],
     queryFn: async () => {
-      const res = await apiClient.get("/api/v1/competitors");
+      const res = await apiClient.get("/api/v1/dashboard/competitors");
       return res.data;
     },
   });

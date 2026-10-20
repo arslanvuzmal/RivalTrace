@@ -1,13 +1,13 @@
 import logging
-from typing import List, Dict, Any
-from fastapi import APIRouter, Depends, BackgroundTasks
+from typing import List, Dict, Any, Optional
+from fastapi import APIRouter, BackgroundTasks
 from sqlalchemy.orm import Session
 from deepdiff import DeepDiff
 import json
 
 import structlog
 
-from app.core.database import get_db
+from app.core.database import SessionLocal
 from app.models.client import Client
 from app.models.snapshot import Snapshot
 from app.models.briefing_history import BriefingHistory, DeliveryStatus
@@ -35,17 +35,33 @@ def _parse_diff(diff_obj: DeepDiff, *keys: str) -> dict:
     return parsed_json.get(keys[0], {}) if keys and keys[0] in parsed_json else res
 
 
-def _process_weekly_briefings(db: Session):
+def run_briefings(client_id: Optional[int] = None):
     """
-    Background task to process all active clients, generate insights,
+    Background task: opens its own session (the request's is closed by then) and runs the briefings
+    for every active client, or for one.
+    """
+    db = SessionLocal()
+    try:
+        _process_weekly_briefings(db, client_id)
+    finally:
+        db.close()
+
+
+def _process_weekly_briefings(db: Session, client_id: Optional[int] = None):
+    """
+    Process all active clients (or one), generate insights,
     render the email, and send it.
     """
-    logger.info("Starting weekly briefing orchestration...")
-    clients = db.query(Client).filter(Client.is_active == True).all()
+    logger.info("Starting weekly briefing orchestration...", client_id=client_id)
+    query = db.query(Client).filter(Client.is_active == True)
+    if client_id is not None:
+        query = query.filter(Client.id == client_id)
+    clients = query.all()
     
     for client in clients:
         client_log = logger.bind(client_id=client.id, client_name=client.name)
         insights_list: List[Dict[str, Any]] = []
+        history_records: List[BriefingHistory] = []
         
         for competitor in client.competitors:
             comp_log = client_log.bind(competitor_id=competitor.id, competitor_name=competitor.name)
@@ -105,6 +121,7 @@ def _process_weekly_briefings(db: Session):
                     delivery_status=DeliveryStatus.SENT
                 )
                 db.add(history_record)
+                history_records.append(history_record)
         
         # Commit histories
         db.commit()
@@ -126,7 +143,10 @@ def _process_weekly_briefings(db: Session):
                 client_log.info("Briefing sent successfully via Email")
             else:
                 client_log.error("Failed to send briefing via Email")
-                # We could update DeliveryStatus to FAILED here, but keeping it simple for now.
+                # The records were saved as SENT before sending; a failed email used to leave them that way.
+                for record in history_records:
+                    record.delivery_status = DeliveryStatus.FAILED
+                db.commit()
                 
         else:
             client_log.info("No insights to send for client")
@@ -134,11 +154,10 @@ def _process_weekly_briefings(db: Session):
 @router.post("/weekly-briefings", status_code=202)
 def trigger_weekly_briefings(
     background_tasks: BackgroundTasks,
-    db: Session = Depends(get_db)
 ):
     """
     Triggers the generation and sending of weekly briefings for all active clients.
     Runs asynchronously in the background.
     """
-    background_tasks.add_task(_process_weekly_briefings, db)
+    background_tasks.add_task(run_briefings)
     return {"message": "Weekly briefing orchestration started in the background."}

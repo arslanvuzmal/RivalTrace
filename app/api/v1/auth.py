@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
+import bcrypt
 from jose import jwt, JWTError
 
 from app.core.database import get_db
@@ -12,7 +12,18 @@ from app.models.client import Client
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
+
+def verify_password(password: str, password_hash: str) -> bool:
+    # passlib was used here; it no longer works with bcrypt 4.1+ (every login raised an error).
+    try:
+        return bcrypt.checkpw(password.encode("utf-8"), password_hash.encode("utf-8"))
+    except ValueError:
+        return False
 
 class Token(BaseModel):
     access_token: str
@@ -45,7 +56,7 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
         )
     
     # TODO: Implement a proper registration/invite flow instead of relying on password overrides
-    if not client.password_hash or not pwd_context.verify(form_data.password, client.password_hash):
+    if not client.password_hash or not verify_password(form_data.password, client.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",

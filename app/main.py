@@ -1,7 +1,9 @@
 import logging
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.api.v1 import ingestion, insights, clients, competitors, orchestration, webhooks, billing, dashboard, auth
+from app.core.config import settings
 from app.core.logging import setup_logging
 
 @asynccontextmanager
@@ -14,6 +16,15 @@ app = FastAPI(
     description="Backend API for managing competitor state and computing deltas.",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+# The portal runs on its own origin and calls this API from the browser; without this every call
+# failed its preflight (OPTIONS 405) and the portal showed empty pages.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[o.strip() for o in settings.portal_origins.split(",") if o.strip()],
+    allow_methods=["*"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 app.include_router(ingestion.router, prefix="/api/v1")

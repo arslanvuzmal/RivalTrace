@@ -48,7 +48,7 @@ export default function BriefingsList() {
               <Card className="transition-all hover:bg-muted/50">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div>
-                    <CardTitle className="text-lg">Competitor Insight</CardTitle>
+                    <CardTitle className="text-lg">{(b as any).competitor_name || "Competitor Insight"}</CardTitle>
                     <CardDescription>
                       Generated on {format(new Date(b.scrape_date), "PPP")}
                     </CardDescription>

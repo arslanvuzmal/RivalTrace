@@ -26,3 +26,7 @@ class BriefingHistory(Base):
     # Relationships
     client = relationship("Client", back_populates="briefing_histories")
     competitor = relationship("Competitor")
+
+    @property
+    def competitor_name(self):
+        return self.competitor.name if self.competitor else None

@@ -9,7 +9,7 @@ export default function DashboardHome() {
   const { data: competitors, isLoading: isLoadingComp } = useQuery({
     queryKey: ["competitors"],
     queryFn: async () => {
-      const res = await apiClient.get("/api/v1/competitors");
+      const res = await apiClient.get("/api/v1/dashboard/competitors");
       return res.data;
     },
   });
@@ -17,7 +17,6 @@ export default function DashboardHome() {
   const { data: briefings, isLoading: isLoadingBrief } = useQuery({
     queryKey: ["briefings"],
     queryFn: async () => {
-      // Assuming a similar endpoint to what was built in Phase 5 for briefings list
       const res = await apiClient.get("/api/v1/dashboard/briefings");
       return res.data;
     },
@@ -39,15 +38,11 @@ export default function DashboardHome() {
     }
   }
 
-  // Next run is presumably Sunday
-  const getNextSunday = () => {
-    const d = new Date();
-    d.setDate(d.getDate() + (7 - d.getDay()) % 7);
-    if (d.getDay() === 0 && new Date().getDay() === 0) {
-        d.setDate(d.getDate() + 7);
-    }
-    return d.toLocaleDateString();
-  };
+  // Nothing in the repository schedules the run (n8n or another scheduler calls the webhook), so
+  // show when the last briefing was made rather than guessing the next one.
+  const lastBriefing = briefings && briefings.length > 0
+    ? new Date(briefings[0].scrape_date).toLocaleDateString()
+    : "None yet";
 
   return (
     <div className="flex flex-col gap-4">
@@ -61,7 +56,7 @@ export default function DashboardHome() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{isLoadingComp ? "-" : activeCount}</div>
-            <p className="text-xs text-muted-foreground">Tracking {activeCount} competitors weekly</p>
+            <p className="text-xs text-muted-foreground">Tracking {activeCount} competitors</p>
           </CardContent>
         </Card>
         
@@ -80,12 +75,12 @@ export default function DashboardHome() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Next Briefing Date</CardTitle>
+            <CardTitle className="text-sm font-medium">Last Briefing</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{getNextSunday()}</div>
-            <p className="text-xs text-muted-foreground">Delivered via Email/Slack</p>
+            <div className="text-2xl font-bold">{isLoadingBrief ? "-" : lastBriefing}</div>
+            <p className="text-xs text-muted-foreground">{briefings?.length || 0} competitor briefings so far</p>
           </CardContent>
         </Card>
       </div>

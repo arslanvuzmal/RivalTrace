@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     stripe_webhook_secret: str = ""
     stripe_price_id: str = ""
     jwt_secret_key: str
+    # Demo mode: no model call (rules in demo_insights.py) and briefings written to demo/out/ instead of emailed.
+    demo_mode: bool = False
+    # Comma-separated origins allowed to call the API from a browser (the client portal).
+    portal_origins: str = "http://localhost:3000"
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 60 # 1 hour
 
